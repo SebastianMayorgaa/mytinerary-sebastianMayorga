@@ -14,7 +14,7 @@ function Navbar() {
         <nav>
             <ul className="flex justify-around items-center bg-yellow-600/30 text-stone-100 text-xl h-24 top-0 right-0 left-0 z-50">
                 <li>
-                    <h1 className="text-3xl text-yellow-900 underline ml-4 italic">My Tinerary</h1>
+                    <h1 className="text-4xl text-yellow-900 underline ml-4 italic">My Tinerary</h1>
 
                 </li>
                 <li>

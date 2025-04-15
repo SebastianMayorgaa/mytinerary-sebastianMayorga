@@ -1,27 +1,36 @@
-import useFetch from "../Components/useFetch";
+import Carousel from "../Components/Carousel";
 import { useNavigate } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { getCities } from "../store/actions/citiesActions";
+import { useEffect } from "react";
+
 
 function Home() {
+    const dispatch = useDispatch()
+    const  {status} = useSelector((store) => store.city.citiesState)
+
+    useEffect(() => {
+        if (status === "idle"){
+            dispatch(getCities())
+        }
+    },[dispatch, status])
+
+
+
     const navigate = useNavigate();
-    const { cities, loading } = useFetch("http://localhost:8080/api/cities/allCities")
 
     function handleNavigate() {
         navigate("/cities");
     }
 
-    console.log("Cities in Home component:", cities);
+    // console.log("Cities in Home component:", cities);
 
     return (
         <>
             <div className="bg-orange-100/50 min-h-[80vh] pb-10">
                 <div className="relative">
                     <img className="w-full h-[90vh] object-cover" src="../src/assets/across_the_globe.jpg" alt="" />
-                    <div className="w-full h-full absolute text-white text-center inset-0 bg-black/60 flex-col content-center">
+                    <div className="w-full h-full absolute text-white text-center inset-0 bg-black/50 flex-col content-center">
                         <h1 className="text-4xl m-5">My Tineraries</h1>
                         <h3 className="text-2xl mb-8 mx-10">
                             Find your perfect trip, designed by insiders who know and love their cities.
@@ -44,38 +53,8 @@ function Home() {
                         </button>
                     </div>
                     <h1 className="text-2xl mb-4 text-yellow-600">Popular Mytineraries</h1>
-                    {loading && <p className="text-center text-lg">Loading cities...</p>}
 
-                    <Swiper
-                        modules={[Navigation, Pagination, Autoplay]}
-                        spaceBetween={20}
-                        loop={true}
-                        navigation
-                        pagination={{ clickable: true }}
-                        autoplay={{
-                            delay: 3000,
-                            disableOnInteraction: false,
-                        }}
-                        className="w-5/6 gap-4 px-10 pb-10 mb-20"
-                        breakpoints={{
-                            320: { slidesPerView: 1, slidesPerGroup: 1 },
-                            768: { slidesPerView: 2, slidesPerGroup: 2 },
-                            1024: { slidesPerView: 4, slidesPerGroup: 4 },
-                            1280: { slidesPerView: 4, slidesPerGroup: 4 },
-                        }}
-                    >
-                        {cities.map((city, index) => (
-                            <SwiperSlide key={index}>
-                                <div className="relative block h-full">
-                                    <img className="w-full h-70 object-cover rounded-xl" src={city.photo} alt={city.name} />
-                                    <div className="absolute w-full inset-x-0 bottom-0 text-center bg-black/55 text-white p-2 rounded-br-xl rounded-bl-xl">
-                                        <h1 className="text-xl font-bold">{city.name}</h1>
-                                        <h3 className="text-lg">{city.country}</h3>
-                                    </div>
-                                </div>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+                    <Carousel/>
                 </div>
             </div>
         </>
