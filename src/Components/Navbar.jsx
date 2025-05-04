@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { NavLink } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const routes = [
     { path: "/", name: "Home" },
@@ -8,6 +9,12 @@ const routes = [
 ]
 
 function Navbar() {
+
+    const navigate = useNavigate();
+
+    function handleNavigate() {
+        navigate("/signIn");
+    }
 
     const [isOpen, setIsOpen] = useState(false)
     return (
@@ -28,7 +35,7 @@ function Navbar() {
                         </li>
                     ))}
                     <li>
-                        <button className="flex content-center bg-lime-900/20 hover:bg-lime-900/40 rounded-xl px-2 ml-3 py-1">
+                        <button onClick={handleNavigate} className="flex content-center bg-lime-900/20 hover:bg-lime-900/40 rounded-xl px-2 ml-3 py-1">
                             <img className="h-8" src="../src/assets/avatar-icon.png" alt="" />
                             <p className="pl-2">Login</p>
                         </button>
