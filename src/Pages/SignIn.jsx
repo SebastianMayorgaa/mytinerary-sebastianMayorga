@@ -1,7 +1,7 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { signIn } from "../store/actions/authActions";
 
 
@@ -11,11 +11,10 @@ function SignIn() {
     const [password, setPassword] = useState("")
     const dispatch = useDispatch()
     const authStore = useSelector((state) => state.auth)
+    const location = useLocation()
 
     const handleSignIn = (e) => {
         e.preventDefault()
-        console.log("Se inicia submit del usuario");
-        
         dispatch(signIn({email, password}))
     }
 
@@ -27,6 +26,21 @@ function SignIn() {
 
     const status = authStore.status
     const error = authStore.error
+
+    useEffect(() => {
+        if (authStore.token) {
+            navigate("/");
+        }
+    }, [authStore.token, navigate]);
+    
+
+    useEffect(() => {
+        if (status === "succeeded") {
+            const goTo = location.state?.from?.pathname
+            navigate(goTo)
+        }
+        
+    },[status,location.state,navigate])
 
     return (
         <div className="w-full h-[75vh] bg-[#706D54] flex justify-center items-center">
