@@ -4,7 +4,7 @@ import axios from "axios";
 const changeSearch = createAction('city/changeSearch')
 
 const getCities = createAsyncThunk('city/getCities', async () => {
-    const cities = await axios.get('http://localhost:8080/api/cities/allCities',)
+    const cities = await axios.get('https://mytinerary-back-sebastianmayorga.onrender.com/api/cities/allCities',)
     console.log(cities.data.response);
     
     

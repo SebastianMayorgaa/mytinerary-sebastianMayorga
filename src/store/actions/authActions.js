@@ -4,7 +4,7 @@ import axios from "axios";
 export const signIn = createAsyncThunk('auth/signIn', async ({ email, password }, { rejectWithValue }) => {
     try {
         const user = { email, password }
-        const response = await axios.post('http://localhost:8080/api/auth/signIn', user)
+        const response = await axios.post('https://mytinerary-back-sebastianmayorga.onrender.com/api/auth/signIn', user)
         console.log(response.data);
         localStorage.setItem('token', response.data.token)
         return response.data
@@ -18,7 +18,7 @@ export const signIn = createAsyncThunk('auth/signIn', async ({ email, password }
 
 export const signUp = createAsyncThunk('auth/signUp', async(userData, {rejectWithValue}) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/users/registerUser', userData);
+        const response = await axios.post('https://mytinerary-back-sebastianmayorga.onrender.com/api/users/registerUser', userData);
         console.log(response.data);
         localStorage.setItem('token', response.data.token);
 
@@ -54,7 +54,7 @@ export const signOut = createAsyncThunk('auth/signOut', async (email, { rejectWi
         const token = state.auth.token || localStorage.getItem('token')
 
         const response = await axios.post(
-            'http://localhost:8080/api/auth/signOut',
+            'https://mytinerary-back-sebastianmayorga.onrender.com/api/auth/signOut',
             { email },
             { headers: {
                     Authorization: `Bearer ${token}`,
